@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Pricing Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f7f9fc;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 16px;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #718096;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .toggle-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            margin: 0 12px;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4f46e5;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #4f46e5;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+
+        .discount-badge {
+            background-color: #fef3c7;
+            color: #92400e;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+
+        .pricing-plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .plan {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 32px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .plan:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .plan.popular {
+            border: 2px solid #4f46e5;
+            position: relative;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background-color: #4f46e5;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .plan-header {
+            margin-bottom: 24px;
+        }
+
+        .plan-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 12px;
+        }
+
+        .plan-price {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+
+        .plan-price span {
+            font-size: 16px;
+            font-weight: 500;
+            color: #718096;
+        }
+
+        .plan-description {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 24px;
+        }
+
+        .plan-features {
+            margin-bottom: 32px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .feature svg {
+            color: #4f46e5;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .primary-button {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+        }
+
+        .primary-button:hover {
+            background-color: #4338ca;
+        }
+
+        .secondary-button {
+            background-color: white;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+
+        .secondary-button:hover {
+            background-color: #f5f3ff;
+        }
+
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-header {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+
+        .faq-question {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 12px;
+        }
+
+        .faq-answer {
+            font-size: 16px;
+            color: #718096;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .header p {
+                font-size: 16px;
+            }
+
+            .plan {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Simple, transparent pricing</h1>
+            <p>Choose the plan that's right for you and start creating amazing projects today.</p>
+        </header>
+
+        <div class="toggle-container">
+            <span class="toggle-text">Monthly</span>
+            <label class="toggle">
+                <input type="checkbox" id="billing-toggle">
+                <span class="slider"></span>
+            </label>
+            <span class="toggle-text">Annual</span>
+            <span class="discount-badge">Save 20%</span>
+        </div>
+
+        <div class="pricing-plans">
+            <div class="plan">
+                <div class="plan-header">
+                    <h3 class="plan-name">Starter</h3>
+                    <div class="plan-price">$19<span>/month</span></div>
+                    <p class="plan-description">Perfect for individuals and small projects</p>
+                </div>
+                <ul class="plan-features">
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>5 projects</span>
+                    </li>
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>20,000 API calls/month</span>
+                    </li>
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Community support</span>
+                    </li>
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Basic analytics</span>
+                    </li>
+                </ul>
+                <a href="#" class="cta-button secondary-button">Start free trial</a>
+            </div>
+
+            <div class="plan popular">
+                <span class="popular-badge">Most Popular</span>
+                <div class="plan-header">
+                    <h3 class="plan-name">Professional</h3>
+                    <div class="plan-price">$49<span>/month</span></div>
+                    <p class="plan-description">Great for growing teams and businesses</p>
+                </div>
+                <ul class="plan-features">
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>20 projects</span>
+                    </li>
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>100,000 API calls/month</span>
+                    </li>
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Priority email support</span>
+                    </li>
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Advanced analytics</span>
+                    </li>
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Team collaboration tools</span>
+                    </li>
+                </ul>
+                <a href="#" class="cta-button primary-button">Start free trial</a>
+            </div>
+
+            <div class="plan">
+                <div class="plan-header">
+                    <h3 class="plan-name">Enterprise</h3>
+                    <div class="plan-price">$99<span>/month</span></div>
+                    <p class="plan-description">For large organizations and complex needs</p>
+                </div>
+                <ul class="plan-features">
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Unlimited projects</span>
+                    </li>
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>500,000 API calls/month</span>
+                    </li>
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>24/7 dedicated support</span>
+                    </li>
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Custom analytics dashboard</span>
+                    </li>
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Advanced security features</span>
+                    </li>
+                    <li class="feature">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6667 5L7.50001 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Custom integrations</span>
+                    </li>
+                </ul>
+                <a href="#" class="cta-button secondary-button">Contact sales</a>
+            </div>
+        </div>
+
+        <section class="faq-section">
+            <h2 class="faq-header">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h3 class="faq-question">How does the billing cycle work?</h3>
+                <p class="faq-answer">Your subscription starts the day you sign up and will renew automatically at the end of each billing period. You can change or cancel your plan at any time from your account settings.</p>
+            </div>
+            <div class="faq-item">
+                <h3 class="faq-question">Can I change plans later?</h3>
+                <p class="faq-answer">Yes, you can upgrade, downgrade, or cancel your plan at any time. Changes to your subscription will take effect immediately, and we'll prorate any charges.</p>
+            </div>
+            <div class="faq-item">
+                <h3 class="faq-question">What payment methods do you accept?</h3>
+                <p class="faq-answer">We accept all major credit cards including Visa, Mastercard, and American Express. For Enterprise plans, we also offer invoicing options.</p>
+            </div>
+            <div class="faq-item">
+                <h3 class="faq-question">Is there a free trial?</h3>
+                <p class="faq-answer">Yes, we offer a 14-day free trial on all plans. No credit card is required to start your trial, and you can upgrade to a paid plan at any time.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Simple toggle functionality for monthly/annual billing
+        const billingToggle = document.getElementById('billing-toggle');
+        const pricingElements = document.querySelectorAll('.plan-price');
+        
+        const monthlyPrices = ['$19', '$49', '$99'];
+        const annualPrices = ['$15', '$39', '$79'];
+        
+        billingToggle.addEventListener('change', function() {
+            pricingElements.forEach((element, index) => {
+                if (this.checked) {
+                    // Annual pricing
+                    element.innerHTML = annualPrices[index] + '<span>/month</span>';
+                } else {
+                    // Monthly pricing
+                    element.innerHTML = monthlyPrices[index] + '<span>/month</span>';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
